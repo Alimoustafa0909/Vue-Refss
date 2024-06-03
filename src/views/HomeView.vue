@@ -1,30 +1,40 @@
 <template>
   <div class="home">
- <p>  My name is    {{name}} and My age is  {{age}}</p>
- <button  @click="HandleClick"> Click Me</button>
- <button @click="age++">Add 1 to the  Age </button>
- <input v-model="name"> 
+    <h1>Home</h1>
+    <h2>Refs</h2>
+    <p>{{ ninjaOne.name }} - {{ ninjaOne.age }} - {{ nameOne}}</p>
+    <button @click="updateNinjaOne">Update ninja one</button>
+    <h2>Reactive</h2>
+    <p>{{ ninjaTwo.name }} - {{ ninjaTwo.age }} - {{ nameTwo}}</p>
+    <button @click="updateNinjaTwo">Update ninja two</button>
   </div>
 </template>
 
 <script>
-import { ref } from 'vue';
-
+import { reactive, ref } from 'vue'
 
 export default {
-  name: 'HomeView',
-  setup(){
- 
-    const age = ref(35);
-    const name= ref('mario')
+  name: 'Home',
+  setup() {    
+    const ninjaOne = ref({ name: 'mario', age: 30 })
+    const ninjaTwo = reactive({ name: 'luigi', age: 35 })
 
-    const HandleClick = () =>  {
-     name.value='ahmed' ,
+    // reactive cannot be used on primitive values
+    const nameOne = ref('omar')  // will be reactive
+    const nameTwo = reactive('luigi') // will NOT be reactive
 
-     age.value =3555
+    const updateNinjaOne = () => {
+      ninjaOne.value.age = 40
+       nameOne.value =123
+    
     }
-    return {name , age,HandleClick}
-  }
 
+    const updateNinjaTwo = () => {
+      ninjaTwo.age = 45
+      nameTwo.value= 'ahmed'
+    }
+
+    return { ninjaOne, ninjaTwo, updateNinjaOne, updateNinjaTwo , nameOne,nameTwo}
+  },
 }
 </script>
